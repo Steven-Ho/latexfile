@@ -1,0 +1,105 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\usepackage{ulem}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\usepackage{amsmath}
+\author{何舜成}
+\date{2012011515}
+\title{Machine Learning Exercise 2}
+\begin{document}
+\maketitle
+\textbf{1. Weaken Setting 1 ($n$ binary independent and identically distributed random variables) and obtain the same concentration inequality}\par
+\uline{Modified setting}: $n$ independent binary random variables $X_{1}$, $X_{2}$,..., $X_{n}$, for each $X_{i}$, $E[X_{i}]=p_{i}$.\par
+\uline{Proof}:\par
+\begin{equation*}
+Var[X_{i}]=E[X^{2}]-(E[x])^{2}=p_{i}(1-p_{i})
+\end{equation*}\par
+$n$ random variables are independent, therefore\par
+\begin{equation*}
+Var[\bar{X}]=Var[\frac{1}{n}\sum_{i=1}^{n}X_{i}]=\frac{1}{n^{2}}\sum_{i=1}^{n}Var[X_{i}]=\frac{1}{n^{2}}\sum_{i=1}^{n}p_{i}(1-p_{i})
+\end{equation*}\par
+Since\par
+\begin{equation*}
+p_{i}(1-p_{i})\leq\frac{1}{4}, \forall i\in[n]
+\end{equation*}\par
+Apply Chebyshev ineq.\par
+\begin{equation*}
+Pr[|\bar{X}-E[\bar{X}]|\geq\delta]\leq\frac{Var[\bar{X}]}{\delta^{2}}=\frac{\sum_{i=1}^{n}p_{i}(1-p_{i})}{n^{2}\delta^{2}}\leq\frac{1}{4n\delta^{2}}=O(n^{-1})
+\end{equation*}\par
+We get the same result from original setting.\par
+\textbf{2. Prove $D_{e}(p+\delta||p)\geq2\delta^{2}, \forall\delta>0, p\in[0,1-\delta]$.}\par
+\uline{Proof}:\par
+By definition of relative entropy\par
+\begin{equation*}
+D_{e}(p+\delta||p)=(p+\delta)ln\frac{p+\delta}{p}+[1-(p+\delta)]ln\frac{1-(p+\delta)}{1-p}
+\end{equation*}\par
+Let $f(\delta)=D_{e}(p+\delta||p)-2\delta^{2}$ and we get\par
+\begin{eqnarray*}
+f(\delta)&=&(p+\delta)ln\frac{p+\delta}{p}+[1-(p+\delta)]ln\frac{1-(p+\delta)}{1-p}-2\delta^{2}\\
+f'(\delta)&=&ln\frac{p+\delta}{p}-ln\frac{1-(p+\delta)}{1-p}-4\delta\\
+f''(\delta)&=&\frac{1}{p+\delta}+\frac{1}{1-(p+\delta)}-4\\
+\end{eqnarray*}\par
+Since\par
+\begin{equation*}
+f''(\delta)=\frac{1}{(p+\delta)[1-(p+\delta)]}-4\geq\frac{1}{1/4}-4\geq 0
+\end{equation*}\par
+And $f'(0)=0$, therefore\par
+\begin{equation*}
+f'(\delta)>0,\forall\delta>0
+\end{equation*}\par
+Since $f(0)=0$, we get\par
+\begin{equation*}
+f(\delta)>0,\forall\delta>0
+\end{equation*}\par
+Therefore we proved the inequality, and the ineq. is tight when $\delta\to 0$.\par
+\textbf{3. Prove Lemma 2. $n$ independent random variables $X_{1}$, $X_{2}$,..., $X_{n}$, where $X_{i}$ takes its value from $[a_{i}, b_{i}]$.}\par
+\begin{equation*}
+E[e^{t(X_{1}-E[X_{1}])}]\leq exp(\frac{t^{2}(b_{1}-a_{1})^{2}}{8}),\forall t>0
+\end{equation*}\par
+\uline{Proof}:\par
+Function $e^{tx}$ is convex, therefore\par
+\begin{equation*}
+e^{t(X_{1}-E[X_{1}])}\leq\frac{b_{1}-X_{1}}{b_{1}-a_{1}}e^{t(a_{1}-E[X_{1}])}+\frac{X_{1}-a_{1}}{b_{1}-a_{1}}e^{t(b_{1}-E[X_{1}])}
+\end{equation*}\par
+\begin{equation*}
+E[e^{t(X_{1}-E[X_{1}])}]\leq\frac{b_{1}-E[X_{1}]}{b_{1}-a_{1}}e^{t(a_{1}-E[X_{1}])}+\frac{E[X_{1}]-a_{1}}{b_{1}-a_{1}}e^{t(b_{1}-E[X_{1}])}
+\end{equation*}\par
+Substitute $E[X_{1}]$ with $c, c\in[a_{1}, b_{1}]$, and let \par
+\begin{equation*}
+f(t)=ln(\frac{b-c}{b-a}e^{t(a-c)}+\frac{c-a}{b-a}e^{t(b-c)})
+\end{equation*}\par
+We get\par
+\begin{eqnarray*}
+f'(t)&=&(b-c)(a-c)\frac{e^{t(a-c)}-e^{t(b-c)}}{(b-c)e^{t(a-c)}+(c-a)e^{t(b-c)}}\\
+f''(t)&=&(b-c)(c-a)(a-b)^{2}\frac{e^{t(a-c)}e^{t(b-c)}}{((b-c)e^{t(a-c)}+(c-a)e^{t(b-c)})^{2}}
+\end{eqnarray*}\par
+Since\par
+\begin{eqnarray*}
+f''(t)&\leq&(b-c)(c-a)(a-b)^{2}\frac{e^{t(a-c)}e^{t(b-c)}}{4(b-c)e^{t(a-c)}(c-a)e^{t(b-c)}}\\
+&=&\frac{(b-a)^{2}}{4}
+\end{eqnarray*}\par
+Expand $f(t)$ to second order\par
+\begin{eqnarray*}
+f(t)&=&f(0)+f'(0)t+\frac{f''(\xi)}{2}t^{2}\\
+&=&0+0+\frac{f''(\xi)}{2}t^{2}\\
+&\leq&\frac{t^{2}(b-a)^{2}}{8}
+\end{eqnarray*}\par
+Therefore\par
+\begin{equation*}
+E[e^{t(X_{1}-E[X_{1}])}]\leq e^{f(t)}\leq exp(\frac{t^{2}(b-a)^{2}}{8})
+\end{equation*}\par
+\end{document}

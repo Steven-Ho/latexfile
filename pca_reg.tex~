@@ -1,0 +1,153 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\author{何舜成，厉丹阳}
+\title{利用摄动理论求解跨步方程的近似解析表达}
+\begin{document}
+\maketitle
+\section{摄动理论简介}
+在一些很难求得精确解的数学方程中，引入微扰项，从而求得近似的解析解，这种方法称作摄动方法或摄动理论（Perturbation Theory）。下面是一个简单的运用摄动理论求解方程的例子。\par
+考虑如下二次方程\par
+\begin{equation}
+x^{2}-2\epsilonx-1=0, \epsilon\ll1
+\end{equation}
+\begin{equation}
+F=\frac{(N-n+r-1)ESS}{(n-r)RSS}
+\end{equation}
+\section{计算思路}
+假设$X$是$N \times n$的输入样本矩阵，$x_{i}$表示第$i$列样本，$Y$是$N \times 1$的输出样本矩阵，首先对样本进行归一化：\par
+\begin{equation}
+\tilde{x_{i}}=\frac{x_{i}-\bar{x_{i}}}{\sigma_{x_{i}}}, \forall i=1,2,...n
+\end{equation}
+\begin{equation}
+\tilde{Y}=\frac{Y-\bar{Y}}{\sigma_{Y}}
+\end{equation}
+\par
+接下来进行病态分析，求取$X^{T}X$的特征值，并进行正交分解：\par
+\begin{equation}
+L=X^{T}X
+\end{equation}
+\begin{equation}
+UTU^{T}=L, s.t.UU^{T}=I
+\end{equation}
+\par
+剔除接近0的特征值（$r$个）以及相对应的特征向量得到$U_{m}$和$T_{m}$，维度降到了$n-r$，进行线性回归，求得数据归一化、中心化之后的拟合系数：\par
+\begin{equation}
+\bar{c}=U_{m}T^{-1}_{m}U^{T}_{m}X^{T}Y
+\end{equation}
+\par
+对该拟合系数作变换，并计算截距（$\bar{X}$表示$X$每一列取平均得到的行向量）：\par
+\begin{equation}
+c_{i}=\frac{\bar{c_{i}}\sigma_{Y}}{\sigma_{x_{i}}}, \forall i=1,2,...n
+\end{equation}
+\begin{equation}
+\beta_{0}=\bar{Y}-\bar{X}c
+\end{equation}
+\par
+对结果进行$F$检验（考虑病态情形）：\par
+\begin{equation}
+F=\frac{(N-n+r-1)ESS}{(n-r)RSS}
+\end{equation}
+\par
+计算置信区间：\par
+\begin{equation}
+d=Z_{\frac{\alpha}{2}}\sqrt{\frac{RSS}{N-n+r-1}}
+\end{equation}
+\section{计算结果}
+以下检验均在显著性水平0.05下进行。\par
+回归方程及置信区间：\par
+\begin{equation}
+y=-9.151455+0.072966x_{1}+0.598562x_{2}+0.001872x_{3}+0.105482x_{4}\pm1.155715
+\end{equation}
+\par
+$F$检验结果表明可认为线性关系成立：\par
+\begin{equation}
+F=195.116494>F_{\alpha}=4.346831
+\end{equation}
+\section{具体实现}
+Matlab代码（.m文件）如下所示：\par
+\begin{lstlisting}
+% function head
+function linear_regression(y,x,alpha)
+% set sample average to 0, 
+% and set sample standard deviation to 1
+Y = transpose(y);
+Y = (Y - mean(Y))/std(Y);
+[row,col] = size(x);
+X = x;
+avgX = zeros(1,col);
+stdX = zeros(1,col);
+for k = 1:col
+    c = x(:,k);
+    avgX(1,k) = mean(c);
+    stdX(1,k) = std(c);
+    X(:,k) = (c - mean(c))/std(c);
+end
+% attach a column of 1 to matrix x
+% as the interception
+ln = ones(row,1);
+Xt = [ln,X];
+X = transpose(Xt);
+% decomposition
+L = X*Xt;
+[U,T] = schur(L);
+% rule out small eignvalues and vectors
+m = 0;
+for k = 1:(col+1)
+    if T(k,k) > 0.1
+       m = m + 1; 
+    end
+end
+Qm = zeros(col+1,0);
+Vm = zeros(m,m);
+i = 1;
+for k = 1:(col+1)
+    if T(k,k) > 0.1
+       Qm = [Qm,U(:,k)];
+       Vm(i,i) = T(k,k);
+       i = i + 1;
+    end
+end
+% solve for coefficients
+cbar = std(y)*Qm*inv(Vm)*transpose(Qm)*X*transpose(Y);
+yhat = Xt*cbar + mean(y);
+for k = 1:col
+   cbar(k+1,1) = cbar(k+1,1)/stdX(k);
+end
+cbar(1,1) = mean(y) - avgX*cbar(2:col+1,1);
+% F test
+TSS = dot(y-mean(y),y-mean(y));
+ESS = dot(yhat-mean(y),yhat-mean(y));
+RSS = TSS - ESS;
+F = (row-m)*ESS/((m-1)*RSS);
+Fa = finv(1-alpha,m-1,row-m);
+%fprintf('F = %f, Fa = %f\n',F,Fa);
+if F<=Fa
+%    fprintf('No linear relation! (a=%.2f)\n',alpha);
+else
+%    fprintf('Linear relation! (a=%.2f)\n',alpha);
+end
+% solve for confidence interval
+sdelta = sqrt(RSS/(row-m));
+Z = norminv(1-alpha/2,0,1) * sdelta;
+%fprintf('Confidence interval: -%f ~ +%f\n',Z,Z);
+%fprintf('Regression equation: %f + %f*x1 + %f*x2 + %f*x3 + %f*x4\n',...
+%cbar(1,1),cbar(2,1),cbar(3,1),cbar(4,1),cbar(5,1));
+end
+% function ending
+\end{lstlisting}
+\end{document}

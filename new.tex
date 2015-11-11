@@ -1,0 +1,324 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\author{何舜成}
+\title{系统工程导论第二次作业}
+\begin{document}
+\maketitle
+\section{问题描述}
+小明已经是一名本科三年级的学生了，面对大四即将到来的毕业选择，他常常在思考：出国，读硕，直博，还是直接工作？\par
+在今天的系统工程课后，小明突然想到可以用AHP方法帮自己做一个决策。\par
+对于上述4个毕业选择，小明有3个考虑的原则：\par
+1）以自己的成绩和能力，作这个选择的难度如何；\par
+2）从自己的性格和以往的经验来说，自己是否适合或者喜欢这个选择；\par
+3）这几个选择对自己的职业发展影响如何。\par
+对于第三个原则，小明认为过于宽泛，经深思熟虑，觉得这条原则可分为3小点考虑：\par
+3.1）（毕业后）找工作的难度；\par
+3.2）工作得到的待遇；\par
+3.3）学位和履历对自己长期发展影响。\par
+请同学们合理构想一个小明，简要描述他的基本情况。并利用AHP方法，替他为这四个选择排序，给出权重。\par
+
+\section{参数确定}
+四个选择：出国、读硕、直博、工作\par
+三个原则：难度、喜爱程度、职业发展\par
+原则三的子规则：找工作的难度、工作待遇、学历的长期影响\par
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\hline
+ & 原则一 & 原则二 & 原则三 \\
+\hline
+原则一 & 1 & 1/5 & 1/4 \\
+\hline
+原则二 & 5 & 1 & 2 \\
+\hline
+原则三 & 4 & 1/2 & 1 \\
+\hline
+\end{tabular}
+\caption{判断矩阵A：三个原则的排序}
+\vspace{4mm}
+\end{table}
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\hline
+      & 规则一 & 规则二 & 规则三 \\
+\hline
+规则一 & 1     & 1/6   & 1/2   \\
+\hline
+规则二 & 6     & 1     & 4     \\
+\hline
+规则三 & 2     & 1/4   & 1     \\
+\hline
+\end{tabular}
+\caption{判断矩阵A1：原则三子规则排序}
+\vspace{4mm}
+\end{table}
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\hline
+      & 选择一 & 选择二 & 选择三 & 选择四 \\
+\hline
+选择一 & 1     & 1/3   & 5     & 1     \\
+\hline
+选择二 & 3     & 1     & 7     & 3     \\
+\hline
+选择三 & 1/5   & 1/7   & 1     & 1/8   \\
+\hline
+选择四 & 1     & 1/3   & 8     & 1     \\
+\hline
+\end{tabular}
+\caption{判断矩阵B1：四个选择相对于原则三子规则一（找工作难度）的排序}
+\vspace{4mm}
+\end{table}
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\hline
+      & 选择一 & 选择二 & 选择三 & 选择四 \\
+\hline
+选择一 & 1     & 4     & 1/2   & 7     \\
+\hline
+选择二 & 1/4   & 1     & 1/4   & 4     \\
+\hline
+选择三 & 2     & 4     & 1     & 9     \\
+\hline
+选择四 & 1/7   & 1/4   & 1/9   & 1     \\
+\hline
+\end{tabular}
+\caption{判断矩阵B2：四个选择相对于原则三子规则二（工作待遇）的排序}
+\vspace{4mm}
+\end{table}
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\hline
+      & 选择一 & 选择二 & 选择三 & 选择四 \\
+\hline
+选择一 & 1     & 4     & 1/2   & 7     \\
+\hline
+选择二 & 1/4   & 1     & 1/6   & 4     \\
+\hline
+选择三 & 2     & 6     & 1     & 9     \\
+\hline
+选择四 & 1/7   & 1/3   & 1/9   & 1     \\
+\hline
+\end{tabular}
+\caption{判断矩阵B3：四个选择相对于原则三子规则三（学历的长期影响）的排序}
+\vspace{4mm}
+\end{table}
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\hline
+      & 选择一 & 选择二 & 选择三 & 选择四 \\
+\hline
+选择一 & 1     & 1/5   & 3     & 1/3   \\
+\hline
+选择二 & 5     & 1     & 7     & 3     \\
+\hline
+选择三 & 1/3   & 1/7   & 1     & 1/8   \\
+\hline
+选择四 & 3     & 1/3   & 8     & 1     \\
+\hline
+\end{tabular}
+\caption{判断矩阵C1：四个选择相对于原则一（难度）的排序}
+\vspace{4mm}
+\end{table}
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\hline
+      & 选择一 & 选择二 & 选择三 & 选择四 \\
+\hline
+选择一 & 1     & 6     & 3     & 4     \\
+\hline
+选择二 & 1/6   & 1     & 1/3   & 1/3   \\
+\hline
+选择三 & 1/3   & 3     & 1     & 1     \\
+\hline
+选择四 & 1/4   & 3     & 1     & 1     \\
+\hline
+\end{tabular}
+\caption{判断矩阵C2：四个选择相对于原则二（喜爱程度）的排序}
+\vspace{4mm}
+\end{table}
+\section{运行结果}
+7个矩阵的C.R.分别为：\par
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\hline
+      & 矩阵A  & 矩阵A1 & 矩阵B1 & 矩阵B2 & 矩阵B3 & 矩阵C1 & 矩阵C2 \\
+\hline
+C.R.  & 0.0212 & 0.0079 & 0.0550 & 0.0395 & 0.0071 & 0.0582 & 0.0170 \\
+\hline
+\end{tabular}
+\caption{7个矩阵的C.R.}
+\vspace{4mm}
+\end{table}
+均符合一致性要求。\par
+最后得到的权重-得分矩阵为：\par
+\begin{table}[!hbp]
+\centering
+\begin{tabular}{@{}ccccccc@{}}
+\toprule
+ & \multirow{2}{*}{难度} & \multirow{2}{*}{喜爱程度} & \multicolumn{3}{c}{职业发展影响} & \multirow{4}{*}{总得分} \\
+ & & & \multicolumn{3}{c}{0.3331} & \\
+\cline{4-6}
+ & \multirow{2}{*}{0.0974} & \multirow{2}{*}{0.5695} & 找工作难度 & 工作待遇 & 学历长期影响 & \\
+ & & & 0.1061 & 0.7010 & 0.1929 & \\
+\midrule
+出国 & 0.1111 & 0.5609 & 0.2019 & 0.3354 & 0.3203 & 0.4363 \\
+读硕 & 0.5546 & 0.7010 & 0.5176 & 0.1227 & 0.0991 & 0.1477 \\
+直博 & 0.0482 & 0.1898 & 0.0456 & 0.4988 & 0.5376 & 0.2654 \\
+工作 & 0.2861 & 0.1783 & 0.2349 & 0.0431 & 0.0431 & 0.1505 \\
+\bottomrule
+\end{tabular}
+\caption[]{最终结果}
+\vspace{4mm}
+\end{table}
+依照此结果，可以有较大的把握认为选择出国是四个选择中最好的。\par
+\section{具体实现}
+Matlab代码如下所示：\par
+\begin{lstlisting}
+%%Codes:
+clc;
+clear all;
+A = [1 1/5 1/4; 5 1 2; 4 1/2 1];
+A1 = [1 1/6 1/2; 6 1 4; 2 1/4 1];
+B1 = [1 1/3 5 1; 3 1 7 3; 1/5 1/7 1 1/8; 1 1/3 8 1];
+B2 = [1 4 1/2 7; 1/4 1 1/4 4; 2 4 1 9; 1/7 1/4 1/9 1];
+B3 = [1 4 1/2 7; 1/4 1 1/6 3; 2 6 1 9; 1/7 1/4 1/9 1];
+C1 = [1 1/5 3 1/3; 5 1 7 3; 1/3 1/7 1 1/8; 3 1/3 8 1];
+C2 = [1 6 3 4; 1/6 1 1/3 1/3; 1/3 3 1 1; 1/4 3 1 1]; 
+
+%%Step 1: Calculate the weights of the three principles
+[x, lambda] = eig(A);
+r = abs(sum(lambda));
+n = find(r==max(r));
+max_lambda = lambda(n,n);
+max_x = x(:,n);
+sum_x = sum(max_x);
+weight_A = max_x/sum_x;
+
+cr = (max_lambda-3)/2/0.58;
+disp(cr);
+pause();
+
+%%Step 2: Calculate the weights of the three subrules
+[x, lambda] = eig(A1);
+r = abs(sum(lambda));
+n = find(r==max(r));
+max_lambda = lambda(n,n);
+max_x = x(:,n);
+sum_x = sum(max_x);
+weight_A1 = max_x/sum_x;
+
+cr = (max_lambda-3)/2/0.58;
+disp(cr);
+pause();
+
+%%Step 3: Calculate the score of the first subrule
+[x, lambda] = eig(B1);
+r = abs(sum(lambda));
+n = find(r==max(r));
+max_lambda = lambda(n,n);
+max_x = x(:,n);
+sum_x = sum(max_x);
+score_B1 = max_x/sum_x;
+
+cr = (max_lambda-4)/3/0.90;
+disp(cr);
+pause();
+
+%%Step 4: Calculate the score of the second subrule
+[x, lambda] = eig(B2);
+r = abs(sum(lambda));
+n = find(r==max(r));
+max_lambda = lambda(n,n);
+max_x = x(:,n);
+sum_x = sum(max_x);
+score_B2 = max_x/sum_x;
+
+cr = (max_lambda-4)/3/0.90;
+disp(cr);
+pause();
+
+%%Step 5: Calculate the score of the third subrule
+[x, lambda] = eig(B3);
+r = abs(sum(lambda));
+n = find(r==max(r));
+max_lambda = lambda(n,n);
+max_x = x(:,n);
+sum_x = sum(max_x);
+score_B3 = max_x/sum_x;
+
+cr = (max_lambda-4)/3/0.90;
+disp(cr);
+pause();
+
+%%Step 6: Calculate the score of the first principle
+[x, lambda] = eig(C1);
+r = abs(sum(lambda));
+n = find(r==max(r));
+max_lambda = lambda(n,n);
+max_x = x(:,n);
+sum_x = sum(max_x);
+score_C1 = max_x/sum_x;
+
+cr = (max_lambda-4)/3/0.90;
+disp(cr);
+pause();
+
+%%Step 7: Calculate the score of the second principle
+[x, lambda] = eig(C2);
+r = abs(sum(lambda));
+n = find(r==max(r));
+max_lambda = lambda(n,n);
+max_x = x(:,n);
+sum_x = sum(max_x);
+score_C2 = max_x/sum_x;
+
+cr = (max_lambda-4)/3/0.90;
+disp(cr);
+pause();
+
+%%Step 8: Calculate the final result
+s1 = score_B1*weight_A(3)*weight_A1(1);
+disp(s1);
+s2 = score_B2*weight_A(3)*weight_A1(2);
+disp(s2);
+s3 = score_B3*weight_A(3)*weight_A1(3);
+disp(s3);
+s4 = score_C1*weight_A(1);
+disp(s4);
+s5 = score_C2*weight_A(2);
+disp(s5);
+
+score = s1+s2+s3+s4+s5;
+disp(score);
+\end{lstlisting}
+\end{document}

@@ -1,0 +1,51 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\author{何舜成}
+\date{2012011515}
+\title{Image Processing Exercise 1}
+\begin{document}
+\maketitle
+\section{问题描述}
+一个纺织企业生产线上，棉花在一个宽度为1.6m，高度为8cm的扁平管道中上以8m/s的速度运动，现在需要设计一个视觉检测系统自动检测棉花中的异物(如头发、塑料丝、动物毛等)并利用高速气阀将其吹出。系统有如下基本要求：\par
+1、相机镜头距离传送带不超过80cm；\par
+2、能检测宽度为2mm，长度为30mm的异物；\par
+3、采用2K(2048个传感器)或者4K线阵相机，相机的传感器大小为10微米或者14微米；\par
+4、气阀距相机位置不超过60cm。\par
+请确定系统的主要部件和相关参数：\par
+1、相机的选择；\par
+2、镜头的选择；\par
+3、光源的选择。\par
+并分析所设计系统的优缺点。
+\section{问题解答}
+\subsection{相机选择}
+考虑到管道宽为$1600mm$，异物宽度为$2mm$，那么为了保证将来在相机上的成像，异物宽度可以占据至少2个像素，那么相机的像素至少应该为$\frac{1600}{2}\times 2=1600$，因此选择2K分辨率满足要求。传感器大小可以选$14\mu m$，像元越大造价越低。另外考虑到$2mm$物体在行方向上也要有至少2个像素，因此需要行频至少为$\frac{8000}{2}\times 2=8000 Hz$。
+\subsection{镜头选择}
+由于传感器的限制，镜头的像高$h'=2048\times 14\mu m=28.672mm$，原像高$h=1600mm$，与被摄物体距离为$800mm$，计算得\par
+\begin{equation}
+f=\frac{h'L}{h}=\frac{28.672\times 800}{1600}=14.336mm
+\end{equation}\par
+考虑到一些裕量，镜头应当选$14mm$的广角镜头。
+\subsection{光源选择}
+考虑光源效率、寿命、成本，光源可以选择RGB三色的LED漫射光照明，光强应能穿透$80mm$厚的棉花，使得异物在厚棉花遮挡下依然清晰可见。
+\subsection{总结}
+综上所述，整套设备的选择如下：\par
+（1）相机像元$14\mu m$，像素2K，行频大于$8kHz$；\par
+（2）镜头焦距$14mm$；\par
+（3）光源选择LED漫射照明，在棉花较厚时光照应足够强，均匀性也应得到满足。\par
+其优点有：可输出彩色图像，允许一定量的安装或工艺上的误差；缺点是对图像处理的速度要求较高。
+\end{document}

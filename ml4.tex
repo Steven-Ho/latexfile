@@ -1,0 +1,117 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\usepackage{amssymb}
+\usepackage[top=1in,bottom=1in,left=0.5in,right=0.5in]{geometry}
+\usepackage{ulem}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\usepackage{amsmath}
+\author{何舜成}
+\date{2012011515}
+\title{Machine Learning Exercise 3}
+\begin{document}
+\maketitle
+\textbf{1. Prove this inequality}:\par
+\begin{equation*}
+\frac{1}{2}P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-E\phi(z)|\geq 2\varepsilon)\leq P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-\frac{1}{n}\sum_{i=n+1}^{2n}\phi(z_{i})|\geq \varepsilon)\leq 2P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-E\phi(z)|\geq \frac{1}{2}\varepsilon)
+\end{equation*}\par
+\uline{Proof}:\par
+\textbf{Lemma}:\par
+\begin{equation*}
+\frac{1}{2}P(|\nu_{1}-p|\geq 2\varepsilon)\leq P(|\nu_{1}-\nu_{2}|\geq\varepsilon)\leq 2P(|\nu_{1}-p|\geq\frac{\varepsilon}{2})
+\end{equation*}\par
+where $X_{1},\cdots,X_{2n}$ are i.i.d. r.v. and\par
+\begin{equation*}
+\nu_{1}=\frac{1}{n}\sum_{i=1}^{n}X_{i},\nu_{2}=\frac{1}{n}\sum_{i=n+1}^{2n}X_{i},p=EX,n\geq\frac{ln2}{\varepsilon^{2}}
+\end{equation*}\par
+We have a conclusion that\par
+\begin{equation*}
+\{\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-\frac{1}{n}\sum_{i=n+1}^{2n}\phi(z_{i})|\geq \varepsilon\}\subseteq\{\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-E\phi(z)|\geq \frac{1}{2}\varepsilon\}\cup\{\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=n+1}^{2n}\phi(z_{i})-E\phi(z)|\geq \frac{1}{2}\varepsilon\}
+\end{equation*}\par
+and $z_{1},\cdots,z_{2n}$ are i.i.d. r.v.\par
+\begin{eqnarray*}
+P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-\frac{1}{n}\sum_{i=n+1}^{2n}\phi(z_{i})|\geq \varepsilon)&\leq&P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-E\phi(z)|\geq \varepsilon)+P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=n+1}^{2n}\phi(z_{i})-E\phi(z)|\geq \varepsilon)\\
+&=&2P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-E\phi(z)|\geq \varepsilon)
+\end{eqnarray*}\par
+Another conclusion\par
+\begin{equation*}
+\{\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-E\phi(z)|\geq 2\varepsilon\}\cap\{|\frac{1}{n}\sum_{i=n+1}^{2n}\phi_{0}(z_{i})-E\phi_{0}(z)|\leq\varepsilon\}\subseteq\{\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-\frac{1}{n}\sum_{i=n+1}^{2n}\phi(z_{i})|\geq \varepsilon\}
+\end{equation*}\par
+where $\phi_{0}$ is selected in $\Phi$ such that $|\frac{1}{n}\sum_{i=1}^{n}\phi_{0}(z_{i})-E\phi_{0}(z)|\geq 2\varepsilon$ holds true. Therefore\par
+\begin{equation*}
+P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-\frac{1}{n}\sum_{i=n+1}^{2n}\phi(z_{i})|\geq \varepsilon)\geq P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-E\phi(z)|\geq 2\varepsilon)P(|\frac{1}{n}\sum_{i=n+1}^{2n}\phi_{0}(z_{i})-E\phi_{0}(z)|\leq\varepsilon)
+\end{equation*}\par
+Given the condition\par
+\begin{equation*}
+n\geq\frac{ln2}{\varepsilon^{2}}
+\end{equation*}\par
+then using Chernoff bound, we get\par
+\begin{eqnarray*}
+P(|\frac{1}{n}\sum_{i=n+1}^{2n}\phi_{0}(z_{i})-E\phi_{0}(z)|\leq\varepsilon)&=&1-P(|\frac{1}{n}\sum_{i=n+1}^{2n}\phi_{0}(z_{i})-E\phi_{0}(z)|>\varepsilon)\\
+&=&1-2P(\frac{1}{n}\sum_{i=n+1}^{2n}\phi_{0}(z_{i})-E\phi_{0}(z)>\varepsilon)\\
+&\geq&1-2e^{-2n\varepsilon^{2}}\\
+&\geq&1-2e^{-2ln2}=\frac{1}{2}
+\end{eqnarray*}\par
+Therefore\par
+\begin{equation*}
+P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-\frac{1}{n}\sum_{i=n+1}^{2n}\phi(z_{i})|\geq \varepsilon)\geq \frac{1}{2}P(\sup_{\phi\in\Phi}|\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})-E\phi(z)|\geq 2\varepsilon)
+\end{equation*}\par
+\vspace{10pt}
+\textbf{2. Prove the bound}\par
+\begin{equation*}
+\sum_{i=0}^{d}\binom{n}{i}\leq(\frac{en}{d})^{d}
+\end{equation*}\par
+\uline{Proof}:\par
+\textbf{Lemma}:\par
+\begin{equation*}
+dln(1-x)-ln(1-dx)\leq 0,\forall x, 0\leq x\leq \frac{1}{d+1}
+\end{equation*}\par
+\uline{Lemma's proof}:\par
+Let $f(x)=dln(1-x)-ln(1-dx)$, then $f(0)=0$, and\par
+\begin{eqnarray*}
+f'(x) &=&\frac{d}{x-1}-\frac{1}{dx-1} \\
+&=&\frac{(d-1)((d+1)x-1)}{(1-x)(1-dx)}\leq 0
+\end{eqnarray*}\par
+Therefore $f(x)\leq 0$ holds true $\forall x, 0\leq x\leq\frac{1}{d+1}$.\par
+\uline{$n=d$}\par
+\begin{equation*}
+\sum_{i=0}^{d}\binom{n}{i}=2^{d}\leq e^{d}
+\end{equation*}\par
+\uline{$n=k,k\geq d$}\par
+Suppose that the inequality holds true for all $n\leq k$, and when $n=k+1$, we desire to prove\par
+\begin{equation*}
+\sum_{i=0}^{d}\binom{k+1}{i}\leq(\frac{e(k+1)}{d})^{d}
+\end{equation*}\par
+namely to prove\par
+\begin{eqnarray}
+\sum_{i=0}^{d}\binom{k}{i}\frac{k+1}{k-i+1}&\leq&(\frac{e(k+1)}{d})^{d}\\
+\frac{k+1}{k-d+1}\sum_{i=0}^{d}\binom{k}{i}&\leq&(\frac{e(k+1)}{d})^{d}\\
+\frac{k+1}{k-d+1}(\frac{ek}{d})^{d}&\leq&(\frac{e(k+1)}{d})^{d}\\
+k^{d}&\leq&(k+1)^{d-1}(k-d+1)\\
+(\frac{k}{k+1})^{d}&\leq&\frac{k-d+1}{k+1}\\
+(1-\frac{1}{k+1})^{d}&\leq&1-\frac{d}{k+1}\\
+dln(1-\frac{1}{k+1})&\leq&ln(1-\frac{d}{k+1})
+\end{eqnarray}\par
+The last inequality is true according to lemma. and in (1) to (2) we use\par
+\begin{equation*}
+\frac{k+1}{k-i+1}\leq\frac{k+1}{k-d+1}
+\end{equation*}\par
+in (2) to (3) we use the suppose\par
+\begin{equation*}
+\sum_{i=0}^{d}\binom{k}{i}\leq(\frac{ek}{d})^{d}
+\end{equation*}\par
+To conclude, the original inequality holds true.
+\end{document}

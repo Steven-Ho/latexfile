@@ -1,0 +1,70 @@
+\documentclass[UTF8]{article}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\usepackage{ulem}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\usepackage{amsmath}
+\author{\textbf{Lecturer: Wang Liwei}\\He Shuncheng\hspace{18pt}Yi Minzhen}
+\title{Machine Learning: Scribe Note 4}
+\begin{document}
+\maketitle
+\section{VC Theory}
+\subsection{Review}
+This lecture, we continued the topic of VC Theory. We perceive VC Dimension as a kind of \textbf{uniform convergence} over a set of indicator functions. Let us review the definition of VC Dimension.\\
+\rule{\textwidth}{0.5pt}\par
+\textbf{Definition}:\par
+\vspace{9pt}
+Say $d$ is the VC-dim of $\Phi$ ($\Phi$ is a set of indicator functions), if $\exists z_{1}, z_{2},\cdots,z_{d}$ such that\par
+\begin{equation*}
+|{(\phi(z_{1}),\cdots,\phi(z_{d}), \phi\in\Phi)}|=2^{d}
+\end{equation*}\par
+and there are no $z_{1},\cdots, z_{d}, z_{d+1}$ such that\par
+\begin{equation*}
+|{(\phi(z_{1}),\cdots,\phi(z_{d}), \phi\in\Phi)}|=2^{d+1}
+\end{equation*}
+\rule{\textwidth}{0.5pt}\par
+\vspace{9pt}
+Using Chernoff Ineq., we can get (no proof here)\par
+\begin{equation*}
+P(\sup_{\phi\in\Phi}|E\phi(z)-\frac{1}{n}\sum_{i=1}^{n}\phi(z)|\geq\varepsilon)\leq 4e^{-n\varepsilon^{2}/8}(\frac{en}{d})^{d}
+\end{equation*}\par
+Furthermore, we obtain a bound of $E\phi(z)$ by solving the inequality above. $\forall\delta>0$, with probability $1-\delta$ over the random draw of $z_{1}, z_{2},\cdots, z_{n}$,\par
+\begin{equation*}
+E\phi(z)\leq\frac{1}{n}\sum_{i=1}^{n}\phi(z_{i})+\mathcal{O}\left(\sqrt{\frac{d\log(\frac{n}{d})+\log(\frac{1}{\delta})}{n}}\right)
+\end{equation*}\par
+holds true simultaneously for all $\phi\in\Phi$.\par
+\subsection{Empirical Risk Minimization (ERM)}
+Given hypothesis space $\mathcal{H}$, find $f\in\mathcal{H}$ to minimize training error. This procedure is so-called ERM.\\
+\rule{\textwidth}{0.5pt}\par
+\textbf{Theorem}:\par
+Let $\mathcal{H}$ be a hypothesis space $y=\{\pm 1\}$. Assume $VC(\mathcal{H})=d$. For any learning problem (i.e., any underlying distribution $D$ of the data), the classifier $\hat{f}$ returned by the ERM learning alg. satisfies with prob. $1-\delta$ over the random draw of a training set $S$ of size $n$,\par
+\begin{equation*}
+P_{D}(y\neq \hat{f}(x))\leq P_{S}(y\neq \hat{f}(x))+\mathcal{O}\left(\sqrt{\frac{d\log(\frac{n}{d})+\log(\frac{1}{\delta})}{n}}\right)
+\end{equation*}
+\rule{\textwidth}{0.5pt}\par
+\vspace{9pt}
+Note that $P_{D}(y\neq \hat{f}(x)$ refers to the generalization error and $P_{S}(y\neq \hat{f}(x))$ refers to the training error. If we denote\par
+\begin{equation*}
+f^{*}=\arg\!\min_{f\in\mathcal{H}}P_{D}(y\neq f(x))
+\end{equation*}\par
+we get\par
+\begin{equation*}
+P_{D}(y\neq \hat{f}(x))\leq P_{D}(y\neq f^{*}(x))+\mathcal{O}\left(\sqrt{\frac{d\log(\frac{n}{d})+\log(\frac{1}{\delta})}{n}}\right)
+\end{equation*}\par
+\section{Practical Learning Algorithms}
+\subsection{Linear Classifier}
+
+\end{document}

@@ -1,0 +1,30 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\author{何舜成}
+\date{2012011515}
+\title{Machine Learning Exercise 1}
+\begin{document}
+\maketitle
+1. $X\sim N(0,1)$(Guassian Distribution), $t>0$, give an upper bound (UB) and a lower bound (LB) of $Pr[X>t]$ such that $UB(t)\sim LB(t)$ when $t\to+\infty$.\\
+Answer:\\
+the p.d.f of X is\\
+\begin{equation*}
+p(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^{2}}
+\end{equation*}
+
+\end{document}

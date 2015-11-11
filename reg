@@ -1,0 +1,128 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\author{何舜成}
+\title{系统工程导论第二次作业}
+\begin{document}
+\maketitle
+\section{计算结果}
+运行得到的原始数据、回归直线和置信边界如下图：\par
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1.05\textwidth]{slot.eps}
+\end{figure}
+\par
+其中回归方程为：\par
+\begin{equation}
+y = 5.180451 - 135.071531x
+\end{equation}
+\par
+边界方程为：\par
+\begin{equation}
+y = 6.755133 - 135.071531x
+\end{equation}
+\par
+和\par
+\begin{equation}
+y = 3.605768 - 135.071531
+\end{equation}
+\par
+14个数据点中有13个点在置信区间内，一个点稍超出置信区间边界。\par
+F检验得：\par
+\begin{equation}
+F=\frac{(N-2)ESS}{RSS}=22.5791
+\end{equation}
+\begin{equation}
+F_{\alpha}=4.7472
+\end{equation}
+\begin{equation}
+F>F_{\alpha}
+\end{equation}
+\par
+拒绝$H_{0}$，即接受$H_{1}$：X和Y呈线性关系（显著性水平$\alpha=0.05$）。\par
+\section{具体实现}
+Matlab代码（.m文件）如下所示：\par
+\begin{lstlisting}
+% function head
+function linear_regression(y,x,alpha)
+% set sample average to 0, 
+% and set sample standard deviation to 1
+Y = transpose(y);
+Y = (Y - mean(Y))/std(Y);
+[row,col] = size(x);
+X = x;
+avgX = zeros(1,col);
+stdX = zeros(1,col);
+for k = 1:col
+    c = x(:,k);
+    avgX(1,k) = mean(c);
+    stdX(1,k) = std(c);
+    X(:,k) = (c - mean(c))/std(c);
+end
+% attach a column of 1 to matrix x
+% as the interception
+ln = ones(row,1);
+Xt = [ln,X];
+X = transpose(Xt);
+% decomposition
+L = X*Xt;
+[U,T] = schur(L);
+% rule out small eignvalues and vectors
+m = 0;
+for k = 1:(col+1)
+    if T(k,k) > 0.1
+       m = m + 1; 
+    end
+end
+Qm = zeros(col+1,0);
+Vm = zeros(m,m);
+i = 1;
+for k = 1:(col+1)
+    if T(k,k) > 0.1
+       Qm = [Qm,U(:,k)];
+       Vm(i,i) = T(k,k);
+       i = i + 1;
+    end
+end
+% solve for coefficients
+cbar = std(y)*Qm*inv(Vm)*transpose(Qm)*X*transpose(Y);
+yhat = Xt*cbar + mean(y);
+for k = 1:col
+   cbar(k+1,1) = cbar(k+1,1)/stdX(k);
+end
+cbar(1,1) = mean(y) - avgX*cbar(2:col+1,1);
+% F test
+TSS = dot(y,y);
+ESS = dot(yhat,yhat);
+RSS = TSS - ESS;
+F = (row-m-2)*ESS/((m-1)*RSS);
+Fa = finv(1-alpha,m-1,row-m-2);
+%fprintf('F = %f, Fa = %f\n',F,Fa);
+if F<=Fa
+%    fprintf('No linear relation! (a=%.2f)\n',alpha);
+else
+%    fprintf('Linear relation! (a=%.2f)\n',alpha);
+end
+% solve for confidence interval
+sdelta = sqrt(RSS/(row-m-2));
+Z = norminv(1-alpha/2,0,1) * sdelta;
+%fprintf('Confidence interval: -%f ~ +%f\n',Z,Z);
+%fprintf('Regression equation: %f + %f*x1 + %f*x2 + %f*x3 + %f*x4\n',...
+cbar(1,1),cbar(2,1),cbar(3,1),cbar(4,1),cbar(5,1));
+end
+% function ending
+\end{lstlisting}
+\end{document}

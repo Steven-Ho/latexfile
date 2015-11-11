@@ -1,0 +1,110 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\usepackage{amssymb}
+\usepackage{tikz}
+%\usepackage[top=1in,bottom=1in,left=0.5in,right=0.5in]{geometry}
+\usepackage{ulem}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\usepackage{amsmath}
+\author{何舜成}
+\date{2012011515}
+\title{Machine Learning Exercise 6}
+\begin{document}
+\maketitle
+\textbf{1. Show}:\par
+\begin{equation*}
+\frac{\phi(t+1)}{\phi(t)}=Z_{t+1}
+\end{equation*}\par
+\uline{Proof}:\par
+\begin{eqnarray*}
+\frac{\phi(t+1)}{\phi(t)}&=&\frac{\frac{1}{n}\sum_{i=1}^{n}e^{-y_{i}\sum_{\tau=1}^{t+1}\alpha_{\tau}h_{\tau}(x_{i})}}{\frac{1}{n}\sum_{i=1}^{n}e^{-y_{i}\sum_{\tau=1}^{t}\alpha_{\tau}h_{\tau}(x_{i})}}\\
+&=&\frac{\sum_{i=1}^{n}\prod_{\tau=1}^{t+1}e^{-y_{i}\alpha_{\tau}h_{\tau}(x_{i})}}{\sum_{i=1}^{n}\prod_{\tau=1}^{t}e^{-y_{i}\alpha_{\tau}h_{\tau}(x_{i})}}
+\end{eqnarray*}\par
+Note that\par
+\begin{equation*}
+D_{t+1}(i)=\frac{D_{t}(i)e^{-\alpha_{t}y_{i}h_{t}(x_{i})}}{Z_{t}}
+\end{equation*}\par
+and then\par
+\begin{equation*}
+e^{-\alpha_{t}y_{i}h_{t}(x_{i})}=\frac{Z_{t}D_{t+1}(i)}{D_{t}(i)}
+\end{equation*}\par
+Therefore we get\par
+\begin{eqnarray*}
+\prod_{\tau=1}^{t}e^{-y_{i}\alpha_{\tau}h_{\tau}(x_{i})}&=&\prod_{\tau=1}^{t}\frac{Z_{t}D_{t+1}(i)}{D_{t}(i)}\\
+&=&\frac{D_{t+1}(i)}{D_{1}(i)}\prod_{\tau=1}^{t}Z_{t}\\
+&=&nD_{t+1}(i)\prod_{\tau=1}^{t}Z_{t}
+\end{eqnarray*}\par
+at the last step we use $D_{1}(i)=\frac{1}{n}$.\par
+\begin{eqnarray*}
+\frac{\phi(t+1)}{\phi(t)}&=&\frac{\sum_{i=1}^{n}nD_{t+2}(i)\prod_{\tau=1}^{t+1}Z_{\tau}}{\sum_{i=1}^{n}nD_{t+1}(i)\prod_{\tau=1}^{t}Z_{\tau}}\\
+&=&Z_{t+1}\frac{\sum_{i=1}^{n}D_{t+2}(i)}{\sum_{i=1}^{n}D_{t+1}(i)}\\
+&=&Z_{t+1}
+\end{eqnarray*}\par
+\vspace{10pt}
+\textbf{2. Show}\par
+\begin{equation*}
+Z_{t}=\sqrt{1-\gamma_{t}^{2}}
+\end{equation*}\par
+\uline{Proof}:\par
+The original equation can be transformed in the following steps\par
+\begin{eqnarray}
+Z_{t}&=&\sqrt{1-\gamma_{t}^{2}}\\
+\sum_{i=1}^{n}D_{t}(i)e^{-\alpha_{t}y_{i}h_{t}(x_{i})}&=&\sqrt{1-\gamma_{t}^{2}}\\
+\sum_{i=1}^{n}D_{t}(i)\left(\sqrt{\frac{1+\gamma_{t}}{1-\gamma_{t}}}\right)^{-y_{i}h_{t}(x_{i})}&=&\sqrt{1-\gamma_{t}^{2}}\\
+\sum_{i=1}^{n}D_{t}(i)(1+\gamma_{t})^{-\frac{y_{i}h_{t}(x_{i})}{2}}(1-\gamma_{t})^{\frac{y_{i}h_{t}(x_{i})}{2}}&=&(1+\gamma_{t})^{\frac{1}{2}}(1-\gamma_{t})^{\frac{1}{2}}\\
+\sum_{i=1}^{n}D_{t}(i)(1+\gamma_{t})^{-\frac{1+y_{i}h_{t}(x_{i})}{2}}(1-\gamma_{t})^{-\frac{1-y_{i}h_{t}(x_{i})}{2}}&=&1
+\end{eqnarray}\par
+let $I=\{i|y_{i}h_{t}(x_{i})=+1\}$, and $A=\sum_{i\in I}D_{t}(i)$, $B=\sum_{i\notin I}D_{t}(i)$. Naturally $A+B=1$. Then we get\par
+\begin{equation*}
+\gamma_{t}=\sum_{i=1}^{n}D_{t}(i)y_{i}h_{t}(x_{i})=\sum_{i\in I}D_{t}(i)-\sum_{i\notin I}D_{t}(i)=A-B
+\end{equation*}\par
+and\par
+\begin{eqnarray}
+\sum_{i\in I}D_{t}(i)(1+\gamma_{t})^{-1}+\sum_{i\notin I}D_{t}(i)(1-\gamma_{t})^{-1}&=&1
+\end{eqnarray}
+therefore\par
+\begin{eqnarray}
+A(1+\gamma_{t})^{-1}+B(1-\gamma_{t})^{-1}&=&1\\
+A(1+A-B)^{-1}+B(1-A+B)^{-1}&=&1\\
+A(1-A+B)+B(1+A-B)&=&(1-A+B)(1+A-B)
+\end{eqnarray}
+It is trivial to prove equation (9) using $A+B=1$.\par
+\vspace{10pt}
+\textbf{3. Calculate the value of}\par
+\begin{equation*}
+\sum_{i=1}^{n}D_{t+1}(i)I(y_{i}\neq h_{t}(x_{i}))
+\end{equation*}\par
+\textbf{What is the meaning of the result?}\par
+\uline{Proof}:\par
+\begin{eqnarray*}
+\sum_{i=1}^{n}D_{t+1}(i)I(y_{i}\neq h_{t}(x_{i}))&=&\sum_{i=1}^{n}\frac{D_{t}(i)e^{-\alpha_{t}y_{i}h_{t}(x_{i})}}{Z_{t}}\frac{1-y_{i}h_{t}(x_{i})}{2}\\
+&=&\frac{1}{2}-\frac{1}{2Z_{t}}\sum_{i=1}^{n}D_{t}(i)e^{-\alpha_{t}y_{i}h_{t}(x_{i})}y_{i}h_{t}(x_{i})
+\end{eqnarray*}\par
+Next we will show this equation true using the same treatment in the previous problem.\par
+\begin{eqnarray*}
+\sum_{i=1}^{n}D_{t}(i)e^{-\alpha_{t}y_{i}h_{t}(x_{i})}y_{i}h_{t}(x_{i})&=&0\\
+\sum_{i=1}^{n}D_{t}(i)\left(\sqrt{\frac{1-\gamma_{t}}{1+\gamma_{t}}}\right)^{y_{i}h_{t}(x_{i})}y_{i}h_{t}(x_{i})&=&0\\
+\sum_{i\in I}D_{t}(i)\sqrt{\frac{1-\gamma_{t}}{1+\gamma_{t}}}-\sum_{i\notin I}D_{t}(i)\sqrt{\frac{1-\gamma_{t}}{1+\gamma_{t}}}&=&0\\
+\sum_{i\in I}D_{t}(i)(1-\gamma_{t})-\sum_{i\notin I}D_{t}(1+\gamma_{t})&=&0\\
+A(1-A+B)-B(1-A+B)&=&0
+\end{eqnarray*}\par
+It is trivial to prove the last equation using $A+B=1$. Then\par
+\begin{equation*}
+\sum_{i=1}^{n}D_{t+1}(i)I(y_{i}\neq h_{t}(x_{i}))=\frac{1}{2}
+\end{equation*}\par
+It means that if we use the training data weights in round $t+1$ to test the classifier in round $t$, the classifier will give the worst prediction, equivalent to random guess.
+\end{document}

@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}电子商务大环境}{1}
+\contentsline {section}{\numberline {2}电子商务环境下的挑战}{2}
+\contentsline {subsection}{\numberline {2.1}大型企业面临的挑战}{2}
+\contentsline {subsection}{\numberline {2.2}小型企业面临的挑战}{3}
+\contentsline {section}{\numberline {3}企业如何应对}{4}
+\contentsline {subsection}{\numberline {3.1}大型企业的管理思路}{4}
+\contentsline {subsection}{\numberline {3.2}小型企业的管理思路}{4}
+\contentsline {section}{\numberline {4}总结与展望}{5}

@@ -1,0 +1,16 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{cite}
+\author{自26 何舜成}
+\title{对“阿里巴巴”在美国被告事件的看法和对策}
+\begin{document}
+\section{事件还原}
+事件源于阿里巴巴与工商总局的一番博弈。2015年1月27日，淘宝官微发表长微博“一个80后淘宝网运营小二心声”，质疑工商总局几天前发布的2014下半年网络交易商品监测程序有问题。次日，作为回应工商总局官网发布一份对阿里巴巴行政指导的“白皮书”，淘宝发布声明称工商总局网监司司长刘红亮“情绪执法”，决定向工商总局投诉，“白皮书”当晚被撤。1月30日，工商总局称“白皮书”不具有法律效力，总局局长会见马云，马云表示阿里巴巴将配合政府打假。\par
+工商总局与阿里巴巴之间的互相指责以和解收场，然而已在美国上市的阿里巴巴遭到当地7家律师事务所的集体诉讼，被指控发布误导性声明并隐藏了收到监管调查的情况。1月26日收盘价103.99美元的阿里巴巴到3月13日已跌至81.86美元\cite{SinaNews}，蒸发了约五分之一的市值。上述诉讼到目前没有新进展。
+\section{事件解读}
+这个事件引起了国内外众多媒体和商界人士的关注，关注点一是阿里巴巴本身的影响力，二是引起这次官司的法律依据——Sarbanes-Oxley Act。2001年以来，上市公司和证券市场不断曝出丑闻，2002年6月的世界通信公司会计丑闻事件，“彻底打击了投资者对资本市场的信心”。为了保护投资者的利益，2002年美国国会通过了该法案，法案第一句：To protect investors by improving the accuracy and reliability of corporate disclosures made pursuant to the securities laws, and for other purposes.
+\begin{thebibliography}{}
+
+\bibitem[]{SinaNews}http://stock.finance.sina.com.cn/usstock/quotes/BABA.html, 新浪新闻
+
+\end{thebibliography}
+\end{document}

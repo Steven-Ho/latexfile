@@ -1,0 +1,98 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{color}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{listings}
+\lstset{backgroundcolor=\color{lbcolor}}
+\lstset{keywordstyle=\color[rgb]{0,0,1}}
+\lstset{commentstyle=\color[rgb]{0.133,0.545,0.133}}
+\lstset{stringstyle=\color[rgb]{0.627,0.126,0.941}}
+\lstset{language=Matlab}
+\lstset{numbers=left}
+\lstset{breaklines=true}
+\usepackage{amsmath}
+\author{何舜成}
+\date{2012011515}
+\title{Machine Learning Exercise 1}
+\begin{document}
+\maketitle
+1. $X\sim N(0,1)$(Guassian Distribution), $t>0$, give an upper bound (UB) and a lower bound (LB) of $Pr[X>t]$ such that $UB(t)\sim LB(t)$ when $t\to+\infty$.\par
+Answer:\par
+the p.d.f of X is\par
+\begin{equation*}
+p(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^{2}}
+\end{equation*}\par
+and\par
+\begin{eqnarray*}
+Pr[X>t]&=&\int_{t}^{\infty}p(x)dx\\
+&=&\frac{1}{\sqrt{2\pi}}\int_{t}^{\infty}e^{-\frac{1}{2}x^{2}}dx\\
+&\leq&\frac{1}{\sqrt{2\pi}}\int_{t}^{\infty}\frac{x}{t}e^{-\frac{1}{2}x^{2}}\\
+&=&\frac{1}{\sqrt{2\pi}t}\int_{t}^{\infty}xe^{-\frac{1}{2}x^{2}}dx\\
+&=&\frac{1}{\sqrt{2\pi}t}e^{-\frac{1}{2}t^{2}}
+\end{eqnarray*}\par
+namely
+\begin{equation*}
+UB(t)=\frac{1}{\sqrt{2\pi}t}e^{-\frac{1}{2}t^{2}}
+\end{equation*}\par
+assume that\par
+\begin{equation*}
+LB(t)=\frac{t}{\sqrt{2\pi}(t^{2}+1)}e^{-\frac{1}{2}t^{2}}
+\end{equation*}\par
+let\par
+\begin{eqnarray*}
+h(t)&=&Pr[X>t]-LB(t)\\
+&=&\frac{1}{\sqrt{2\pi}}\int_{t}^{\infty}e^{-\frac{1}{2}x^{2}}-\frac{t}{\sqrt{2\pi}(t^{2}+1)}e^{-\frac{1}{2}t^{2}}
+\end{eqnarray*}\par
+then\par
+\begin{eqnarray*}
+h'(t)&=&-\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}t^{2}}-\frac{1-2t^{2}-t^{4}}{\sqrt{2\pi}(t^{2}+1)^{2}}e^{-\frac{1}{2}t^{2}}\\
+&=&-\frac{2}{\sqrt{2\pi}(t^{2}+1)^{2}}e^{-\frac{1}{2}t^{2}}<0
+\end{eqnarray*}\par
+note that\par
+\begin{equation*}
+\lim_{t\to\infty}h(t)=0
+\end{equation*}\par
+therefore\par
+\begin{equation*}
+h(t)>0, \forall t>0
+\end{equation*}\par
+equals to\par
+\begin{equation*}
+Pr[X>t]>LB(t)
+\end{equation*}\par
+finally we note that\par
+\begin{equation*}
+\lim_{t\to\infty}\frac{UB}{LB}=\lim_{t\to\infty}\frac{t^{2}+1}{t^{2}}=1
+\end{equation*}\par
+\vspace{18pt}
+2. $X_{1},X_{2},\cdots,X_{n}$ i.i.d, $\bar{X}=\frac{1}{n}\sum_{i=1}^{n}X_{i}$, $EX$ and $varX$ are known, give a bound to $\bar{X}$ using Chebyshev Ineq.\par
+Answer:\par
+\begin{equation*}
+E\bar{X}=E(\frac{1}{n}\sum_{i=1}^{n}X_{i})=\frac{1}{n}\sum_{i=1}^{n}EX_{i}=EX
+\end{equation*}\par
+\begin{eqnarray*}
+var\bar{X}&=&E\bar{X}^{2}-(EX)^{2}\\
+&=&\frac{1}{n^{2}}E(\sum_{i=1}^{n}X_{i}^{2}+\sum_{i\ne j}X_{i}X_{j})-(EX)^{2}
+\end{eqnarray*}\par
+given that $X_{1},X_{2},\cdots,X_{n}$ i.i.d\par
+\begin{equation*}
+EX_{i}X_{j}=EX_{i}EX_{j}, (i\ne j)
+\end{equation*}\par
+\begin{equation*}
+EX_{i}^{2}=varX_{i}+(EX_{i})^{2}
+\end{equation*}\par
+therefore\par
+\begin{eqnarray*}
+var\bar{X}&=&\frac{1}{n^{2}}(n(varX+(EX)^{2})+C_{n}^{2}(EX)^{2})-(EX)^{2}\\
+&=&\frac{1}{n}varX
+\end{eqnarray*}\par
+using Chebyshev Ineq.\par
+\begin{equation*}
+Pr[(\bar{X}-E\bar{X})^{2}\geq t^{2}]\leq\frac{var\bar{X}}{t^{2}}=\frac{varX}{nt^{2}}
+\end{equation*}
+\end{document}
